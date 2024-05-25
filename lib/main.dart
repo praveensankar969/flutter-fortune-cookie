@@ -18,19 +18,40 @@ class MyApp extends StatelessWidget {
             seedColor: const Color.fromARGB(255, 76, 163, 175)),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
+class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            Image.asset('assets/images/fortune_cookie.png',
+                width: 200, height: 200, fit: BoxFit.cover),
+            const FortuneTextBox(),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class FortuneTextBox extends StatefulWidget {
+  const FortuneTextBox({super.key});
+
+  @override
+  State<FortuneTextBox> createState() => _FortuneTextBox();
+}
+
+class _FortuneTextBox extends State<FortuneTextBox> {
   String _cookieFortuneText = "Find your fortune today!!!";
   final _fortuneList = [
     "Your hard work will soon pay off.",
@@ -143,28 +164,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Image.asset('assets/images/fortune_cookie.png',
-                width: 200, height: 200, fit: BoxFit.cover),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  "${_cookieFortuneText}",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ),
-            ),
-            ElevatedButton(
-                onPressed: _getRandomFortune, child: Text('Get your fortune'))
-          ],
+    return Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+      Card(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Text(
+            _cookieFortuneText,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
         ),
       ),
-    );
+      ElevatedButton(
+          onPressed: _getRandomFortune, child: const Text('Get your fortune')),
+    ]);
   }
 }
